@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class DisciplinaRepository {
 
 	private List<Disciplina> disciplinas = new ArrayList<Disciplina>();

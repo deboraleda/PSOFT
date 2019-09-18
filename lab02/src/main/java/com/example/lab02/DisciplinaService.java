@@ -1,13 +1,14 @@
 package com.example.lab02;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
 
 import javax.annotation.PostConstruct;
 
-import org.omg.CORBA.portable.InputStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,13 @@ public class DisciplinaService {
 	@Autowired
 	private DisciplinaRepository disciplinaRepository;
 	
-	private int id = 0; 
+	//private int id = 0; 
 	
 	@PostConstruct
 	public void initDisciplinas() {
 		ObjectMapper mapper = new ObjectMapper();
 		TypeReference<List<Disciplina>> typeReference = new TypeReference<List<Disciplina>>(){};
-		InputStream inputStream = (InputStream) TypeReference.class.getResourceAsStream("/resources/disciplinas.json");
+		InputStream inputStream = TypeReference.class.getResourceAsStream("/disciplinas.json");
 		try {
 			List<Disciplina> disciplinas = mapper.readValue(inputStream, typeReference); 
 			if(!disciplinaRepository.equals(disciplinas)) {
@@ -44,9 +45,9 @@ public class DisciplinaService {
 		return disciplinaRepository.getDisciplinas();
 	}
 
-	public void setDisciplina(Disciplina novaDisciplina) {
-		disciplinaRepository.setDisciplina(novaDisciplina);
-	}
+	//public void setDisciplina(Disciplina novaDisciplina) {
+		//disciplinaRepository.setDisciplina(novaDisciplina);
+	//}
 	
 	public Disciplina getDisciplina(int id) {
 		return disciplinaRepository.getDisciplina(id);
