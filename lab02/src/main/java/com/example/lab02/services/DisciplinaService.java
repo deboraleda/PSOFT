@@ -1,4 +1,4 @@
-package com.example.lab02;
+package com.example.lab02.services;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +12,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.lab02.entidades.Disciplina;
+import com.example.lab02.repositorios.DisciplinaRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,8 +33,8 @@ public class DisciplinaService {
 		InputStream inputStream = TypeReference.class.getResourceAsStream("/disciplinas.json");
 		try {
 			List<Disciplina> disciplinas = mapper.readValue(inputStream, typeReference); 
-			if(!disciplinaRepository.equals(disciplinas)) {
-				this.disciplinaRepository.save(disciplinas);
+			if(disciplinaRepository.count() != disciplinas.size()) {
+				this.disciplinaRepository.saveAll(disciplinas);
 				System.out.println("Disciplinas salvas no bd");
 			}
 		}catch (IOException e) {
@@ -42,7 +44,7 @@ public class DisciplinaService {
 	}
 
 	public List<Disciplina> getDisciplinas() {
-		return disciplinaRepository.getDisciplinas();
+		return disciplinaRepository.findAll();
 	}
 
 	//public void setDisciplina(Disciplina novaDisciplina) {
@@ -50,23 +52,25 @@ public class DisciplinaService {
 	//}
 	
 	public Disciplina getDisciplina(int id) {
-		return disciplinaRepository.getDisciplina(id);
+		return (Disciplina) disciplinaRepository.getOne(id);
 	}
 	
-	public List<Disciplina> getRanking() {
+	/*public List<Disciplina> getRanking() {
 		return disciplinaRepository.getRanking();
-	}
+	}*/
 	
-	public Disciplina atualizaDisciplina(String nome, int id) {
+	/*public Disciplina atualizaDisciplina(String nome, int id) {
 		return disciplinaRepository.atualizaDisciplina(nome, id);
 	}
 	
 	public Disciplina atualizaNota(double nota, int id) {
 		return disciplinaRepository.atualizaNota(nota, id);
-	}
+	}*/
 	
 	public Disciplina deletaDisciplina(int id) {
-		return disciplinaRepository.deletaDisciplina(id);
+		Disciplina retorno = (Disciplina) disciplinaRepository.getOne(id);
+		disciplinaRepository.deleteById(id);
+		return retorno;
 	}
 	
 	

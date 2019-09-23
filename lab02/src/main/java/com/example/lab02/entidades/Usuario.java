@@ -1,9 +1,19 @@
-package com.example.lab02;
+package com.example.lab02.entidades;
 
+import java.util.Optional;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import org.springframework.stereotype.Repository;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@Entity
 public class Usuario {
-	
-	private String nome;
+	@Id
 	private String email;
+	private String nome;
 	private String senha;
 	
 	
@@ -13,6 +23,11 @@ public class Usuario {
 		this.email = email;
 		this.senha = senha;
 	}	
+	
+	/*public Usuario(@JsonProperty("email") String email) {
+		super();
+		this.email = email;
+	}*/
 	
 	public String getNome() {
 		return nome;

@@ -1,10 +1,9 @@
-package com.example.lab02;
+package com.example.lab02.controladores;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,49 +17,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.lab02.entidades.Disciplina;
+import com.example.lab02.services.DisciplinaService;
+import com.example.lab02.services.JWTService;
+import com.example.lab02.services.UsuarioService;
+
 
 @RestController
 public class DisciplinaController {
 	
 	@Autowired
 	private DisciplinaService dservice;
-	@Autowired
-	private UsuarioService uservice;
-	@Autowired
-	private JWTService jwtservice;
+	
 	
 	@RequestMapping("/v1/api/disciplinas")
 	public ResponseEntity<List<Disciplina>> getDisciplinas(){
 		return new ResponseEntity<List<Disciplina>>(dservice.getDisciplinas(), HttpStatus.OK);
 	}
 	
-	//******************metodos de usuarios*********************
 	
-	//cria novo usuario
-	@PostMapping("/usuarios")
-	public void setUsuario(@RequestBody Usuario usuario) {
-		uservice.setUsuario(usuario);
-	}
-	
-	@DeleteMapping("/auth/usuarios/{email}")
-	public ResponseEntity<Usuario> removeUsuario(@PathVariable String email, @RequestHeader("Authorization") String header){
-		if(uservice.getUsuario(email) == null) {
-			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
-		}try {
-			if(jwtservice.usuarioTemPermissao(header, email)) {
-				return new ResponseEntity<Usuario>(uservice.deletaUsuario(email), HttpStatus.OK);
-			}
-		}catch(ServletException s){
-			//usuario esta com codigo invalido ou vencido
-			return new ResponseEntity<Usuario>(HttpStatus.FORBIDDEN);
-		}//usuario nao tem permissao
-		return new ResponseEntity<Usuario>(HttpStatus.UNAUTHORIZED);
-	}
-	
-	@RequestMapping("/api/v1/usuarios/{email}")
-	public ResponseEntity<Usuario> getUsuario(@RequestParam(value = "email") String email){
-		return new ResponseEntity<Usuario>(uservice.getUsuario(email), HttpStatus.OK);
-	}
 	
 	/*//login de usuario
 	@PostMapping("/auth/login")

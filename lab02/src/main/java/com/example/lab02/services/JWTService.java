@@ -1,8 +1,11 @@
-package com.example.lab02;
+package com.example.lab02.services;
 
 import javax.servlet.ServletException;
 
 import org.springframework.stereotype.Service;
+
+import com.example.lab02.TokenFilter;
+import com.example.lab02.entidades.Usuario;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
@@ -16,9 +19,9 @@ public class JWTService {
 		this.uservice = uservice;
 	}
 	
-	public boolean usuarioExiste(String authorizationHeader) throws ServletException {
+	public Usuario usuarioExiste(String authorizationHeader) throws ServletException {
 		String usuario = getSujeitoDoToken(authorizationHeader);
-		return uservice.getUsuario(usuario) != null ;
+		return uservice.getUsuario(usuario);
 	}
 	
 	public boolean usuarioTemPermissao(String authorizationHeader, String email) throws ServletException {

@@ -1,4 +1,4 @@
-package com.example.lab02;
+package com.example.lab02.entidades;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
