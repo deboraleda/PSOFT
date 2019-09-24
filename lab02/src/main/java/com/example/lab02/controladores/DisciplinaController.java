@@ -24,7 +24,7 @@ public class DisciplinaController {
 	private DisciplinaService dservice;
 	
 	//retorna todas as disciplinas
-	@RequestMapping("/v1/api/disciplinas")
+	@RequestMapping("/disciplinas")
 	public ResponseEntity<List<Disciplina>> getDisciplinas(@RequestHeader("Authorization") String header) throws ServletException{
 		return new ResponseEntity<List<Disciplina>>(dservice.getDisciplinas(), HttpStatus.OK);
 	}

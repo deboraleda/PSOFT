@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 public class Disciplina implements Comparable<Disciplina>{
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String nome;
 	private double nota;
@@ -17,6 +17,10 @@ public class Disciplina implements Comparable<Disciplina>{
 		super();
 		this.nome = nome;
 		this.nota = nota;
+	}
+	
+	public Disciplina() {
+	
 	}
 	
 	public Disciplina(@JsonProperty("nome") String nome) {
