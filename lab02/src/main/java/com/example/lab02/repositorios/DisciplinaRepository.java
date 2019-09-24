@@ -11,11 +11,5 @@ import com.example.lab02.entidades.Disciplina;
 
 @Repository
 public interface DisciplinaRepository<T, ID> extends JpaRepository<Disciplina, Integer>{
-
-
-	/*public List<Disciplina> getRanking() {
-		disciplinas.sort(comparaDisciplina);
-		return disciplinas;
-	}*/
 	
 }

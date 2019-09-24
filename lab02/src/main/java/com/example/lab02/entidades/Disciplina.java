@@ -32,6 +32,14 @@ public class Disciplina implements Comparable<Disciplina>{
 	public double getNota() {
 		return nota;
 	}
+	
+	public String getComentarios() {
+		return comentarios;
+	}
+	
+	public int getLikes() {
+		return likes;
+	}
 
 	@Override
 	public int compareTo(Disciplina o) {
@@ -55,10 +63,10 @@ public class Disciplina implements Comparable<Disciplina>{
 	}
 	
 	public void adicionaComentario(String comentario) {
-		this.comentarios += comentario;
+		this.comentarios += (comentario + "\n");
 	}
 	
-	public void adicionaLike(int like) {
-		this.likes += like;
+	public void adicionaLike() {
+		this.likes++;
 	}
 }

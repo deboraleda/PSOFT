@@ -1,15 +1,11 @@
 package com.example.lab02.controladores;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.lab02.entidades.Disciplina;
 import com.example.lab02.services.DisciplinaService;
-import com.example.lab02.services.JWTService;
-import com.example.lab02.services.UsuarioService;
 
 
 @RestController
@@ -29,55 +23,51 @@ public class DisciplinaController {
 	@Autowired
 	private DisciplinaService dservice;
 	
-	
+	//retorna todas as disciplinas
 	@RequestMapping("/v1/api/disciplinas")
-	public ResponseEntity<List<Disciplina>> getDisciplinas(){
+	public ResponseEntity<List<Disciplina>> getDisciplinas(@RequestHeader("Authorization") String header) throws ServletException{
 		return new ResponseEntity<List<Disciplina>>(dservice.getDisciplinas(), HttpStatus.OK);
 	}
 	
-	
-	
-	/*//login de usuario
-	@PostMapping("/auth/login")
-	public ResponseEntity<Usuario> login(@RequestBody Usuario usuario){
-		return new ResponseEntity<Usuario>(authenthicate(uservice), HttpStatus.OK);
-	}*/
-	
-	@RequestMapping("/v1/api/disciplinas/")
-	public ResponseEntity<Disciplina> getDisciplina(@RequestParam(value = "id") int id){
-		return new ResponseEntity<Disciplina>(dservice.getDisciplina(id), HttpStatus.OK);
+	//retorna uma disciplina com o id passado 
+	@RequestMapping("/v1/api/disciplinas/{id}")
+	public ResponseEntity<Disciplina> getDisciplina(@RequestHeader("Authorization")String header, @RequestParam(value = "id") int id) throws ServletException{
+		if(dservice.getDisciplina(id) != null)
+			return new ResponseEntity<Disciplina>(dservice.getDisciplina(id), HttpStatus.OK);
+		return new ResponseEntity<Disciplina>(HttpStatus.NOT_FOUND);	
 	}
 	
-	
-	/*@RequestMapping("/v1/api/disciplinas/ranking")
-	public ResponseEntity<ArrayList<Disciplina>> getRanking(){
-		return new ResponseEntity<List<Disciplina>>(dservice.getRanking(), HttpStatus.OK);
+	//atualiza o numero de likes de uma disciplina
+	@PutMapping("/api/disciplinas/likes/{id}")
+	public ResponseEntity<Disciplina> adicionaLike(@RequestParam int id, @RequestHeader("Authorization") String header){
+		if(dservice.adicionaLike(id) != null) 
+			return new ResponseEntity<Disciplina>(dservice.getDisciplina(id), HttpStatus.OK);
+		return new ResponseEntity<Disciplina>(HttpStatus.NOT_FOUND);
 	}
 	
-	@PostMapping("/v1/api/disciplinas")
-	public ResponseEntity<Disciplina> setNovaSaudacao(@RequestBody Disciplina novaDisciplina) {
-		return new ResponseEntity<Disciplina>(dservice.setDisciplina(novaDisciplina), HttpStatus.CREATED);
+	@PutMapping("/api/disciplinas/nota/{id}")
+	public ResponseEntity<Disciplina> atualizaNota(@RequestParam int id, @RequestHeader("Authorization") String header, @RequestBody Disciplina novaNota){
+		if(dservice.atualizaNota(novaNota.getNota(), id) != null)
+			return new ResponseEntity<Disciplina>(dservice.getDisciplina(id), HttpStatus.OK);
+		return new ResponseEntity<Disciplina>(HttpStatus.NOT_FOUND);
 	}
 	
-	@PostMapping("/v1/auth/usuarios")
-	public ResponseEntity<Disciplina> setNovoUsusario(@RequestBody Disciplina novaDisciplina) {
-		return new ResponseEntity<Disciplina>(dservice.setDisciplina(novaDisciplina), HttpStatus.CREATED);
+	@PutMapping("/api/disciplinas/comentarios/{id}")
+	public ResponseEntity<Disciplina> adicionaComentario(@RequestParam int id, @RequestHeader("Authorization") String header, @RequestBody Disciplina comentario){
+		if(dservice.adicionaComentario(id, comentario.getComentarios()) != null)
+			return new ResponseEntity<Disciplina>(dservice.getDisciplina(id), HttpStatus.OK);
+		return new ResponseEntity<Disciplina>(HttpStatus.NOT_FOUND);
 	}
 	
-	@PutMapping("/v1/api/disciplinas/{id}/nome")
-	public ResponseEntity<Disciplina> atualizaDisciplina(@PathVariable int id, @PathVariable String nome) {
-		return new ResponseEntity<Disciplina>(dservice.atualizaDisciplina(nome, id), HttpStatus.OK);
+	@RequestMapping("/api/disciplinas/ranking/notas")
+	public ResponseEntity<List<Disciplina>> getRankingNotas(){
+		return new ResponseEntity<List<Disciplina>>(dservice.getRankingNotas(), HttpStatus.OK);
 	}
 	
-	@PutMapping("/v1/api/disciplinas/{id}/nota")
-	public ResponseEntity<Disciplina> atualizaDisciplinaNota(@PathVariable int id, @PathVariable String nota) {
-		return new ResponseEntity<Disciplina>(dservice.atualizaDisciplina(nota, id), HttpStatus.OK);
+	@RequestMapping("/api/disciplinas/ranking/likes")
+	public ResponseEntity<List<Disciplina>> getRankingLikes(){
+		return new ResponseEntity<List<Disciplina>>(dservice.getRankingLikes(), HttpStatus.OK);
 	}
-	
-	@DeleteMapping("/v1/api/disciplinas/{id}")
-	public ResponseEntity<Disciplina> deletaDisciplina(@PathVariable int id) {
-		return new ResponseEntity<Disciplina>(dservice.deletaDisciplina(id), HttpStatus.OK);
-	}*/
 	
 }
 

@@ -12,7 +12,8 @@ public class Lab02Application {
 	public FilterRegistrationBean<TokenFilter> filterJwt() {
 		FilterRegistrationBean<TokenFilter> filterRB = new FilterRegistrationBean<TokenFilter>();
 		filterRB.setFilter(new TokenFilter());
-		filterRB.addUrlPatterns( "/auth/usuarios/{email}");
+		filterRB.addUrlPatterns( "/auth/usuarios/{email}", "/v1/api/disciplinas/{id}", "/api/disciplinas/likes/{id}", 
+				"/api/disciplinas/nota/{id}", "/api/disciplinas/comentarios/{id}");
 		return filterRB;
 	}
 
