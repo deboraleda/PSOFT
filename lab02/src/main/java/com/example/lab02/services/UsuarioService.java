@@ -1,10 +1,8 @@
 package com.example.lab02.services;
 
 
-import java.util.HashMap;
-import java.util.Map;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.lab02.entidades.Usuario;
@@ -14,8 +12,13 @@ import com.example.lab02.repositorios.UsuarioRepository;
 @Service
 public class UsuarioService {
 	
-	private UsuarioRepository usuarios;
+	private UsuarioRepository<Usuario, String> usuarios;
 	
+	public UsuarioService(UsuarioRepository<Usuario, String> usuarios) {
+		super();
+		this.usuarios = usuarios;
+	}
+
 	public void setUsuario(Usuario usuario) {
 		usuarios.save(usuario);
 	}

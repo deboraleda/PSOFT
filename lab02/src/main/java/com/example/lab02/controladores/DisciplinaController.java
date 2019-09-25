@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -31,7 +32,7 @@ public class DisciplinaController {
 	
 	//retorna uma disciplina com o id passado 
 	@RequestMapping("/v1/api/disciplinas/{id}")
-	public ResponseEntity<Disciplina> getDisciplina(@RequestHeader("Authorization")String header, @RequestParam(value = "id") int id) throws ServletException{
+	public ResponseEntity<Disciplina> getDisciplina(@RequestHeader("Authorization")String header, @PathVariable int id) throws ServletException{
 		if(dservice.getDisciplina(id) != null)
 			return new ResponseEntity<Disciplina>(dservice.getDisciplina(id), HttpStatus.OK);
 		return new ResponseEntity<Disciplina>(HttpStatus.NOT_FOUND);	
@@ -39,21 +40,21 @@ public class DisciplinaController {
 	
 	//atualiza o numero de likes de uma disciplina
 	@PutMapping("/api/disciplinas/likes/{id}")
-	public ResponseEntity<Disciplina> adicionaLike(@RequestParam int id, @RequestHeader("Authorization") String header){
+	public ResponseEntity<Disciplina> adicionaLike(@PathVariable int id, @RequestHeader("Authorization") String header){
 		if(dservice.adicionaLike(id) != null) 
 			return new ResponseEntity<Disciplina>(dservice.getDisciplina(id), HttpStatus.OK);
 		return new ResponseEntity<Disciplina>(HttpStatus.NOT_FOUND);
 	}
 	
 	@PutMapping("/api/disciplinas/nota/{id}")
-	public ResponseEntity<Disciplina> atualizaNota(@RequestParam int id, @RequestHeader("Authorization") String header, @RequestBody Disciplina novaNota){
+	public ResponseEntity<Disciplina> atualizaNota(@PathVariable int id, @RequestHeader("Authorization") String header, @RequestBody Disciplina novaNota){
 		if(dservice.atualizaNota(novaNota.getNota(), id) != null)
 			return new ResponseEntity<Disciplina>(dservice.getDisciplina(id), HttpStatus.OK);
 		return new ResponseEntity<Disciplina>(HttpStatus.NOT_FOUND);
 	}
 	
 	@PutMapping("/api/disciplinas/comentarios/{id}")
-	public ResponseEntity<Disciplina> adicionaComentario(@RequestParam int id, @RequestHeader("Authorization") String header, @RequestBody Disciplina comentario){
+	public ResponseEntity<Disciplina> adicionaComentario(@PathVariable int id, @RequestHeader("Authorization") String header, @RequestBody Disciplina comentario){
 		if(dservice.adicionaComentario(id, comentario.getComentarios()) != null)
 			return new ResponseEntity<Disciplina>(dservice.getDisciplina(id), HttpStatus.OK);
 		return new ResponseEntity<Disciplina>(HttpStatus.NOT_FOUND);
