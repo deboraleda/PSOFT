@@ -55,8 +55,12 @@ public class UsuarioController {
 		
 		// retorna usuario com o id passado
 		@RequestMapping("/auth/usuarios/{email}")
-		public ResponseEntity<Usuario> getUsuario(@PathVariable String email){
-			return new ResponseEntity<Usuario>(uservice.getUsuario(email), HttpStatus.OK);
+		public ResponseEntity<Usuario> getUsuario(@PathVariable("email") String email){
+			Usuario u = uservice.getUsuario(email);
+			if(u != null) {
+				return new ResponseEntity<Usuario>(u, HttpStatus.OK);
+			}
+			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		}
 		
 		

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.lab02.entidades.Disciplina;
@@ -41,8 +40,9 @@ public class DisciplinaController {
 	//atualiza o numero de likes de uma disciplina
 	@PutMapping("/api/disciplinas/likes/{id}")
 	public ResponseEntity<Disciplina> adicionaLike(@PathVariable int id, @RequestHeader("Authorization") String header){
-		if(dservice.adicionaLike(id) != null) 
-			return new ResponseEntity<Disciplina>(dservice.getDisciplina(id), HttpStatus.OK);
+		Disciplina d = dservice.adicionaLike(id);
+		if( d != null) 
+			return new ResponseEntity<Disciplina>(d, HttpStatus.OK);
 		return new ResponseEntity<Disciplina>(HttpStatus.NOT_FOUND);
 	}
 	

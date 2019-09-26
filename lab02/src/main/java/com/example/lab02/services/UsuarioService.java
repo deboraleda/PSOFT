@@ -24,7 +24,7 @@ public class UsuarioService {
 	}
 
 	public Usuario getUsuario(String email) {
-		return (Usuario) usuarios.getOne(email);
+		return (Usuario) usuarios.findByEmail(email);
 	}
 	
 	public Usuario deletaUsuario(String email) {

@@ -4,13 +4,13 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-public class Disciplina implements Comparable<Disciplina>{
+public class Disciplina{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String nome;
 	private double nota;
-	private String comentarios;
+	private String comentarios = "";
 	private int likes = 0;
 
 	public Disciplina(String nome, double nota) {
@@ -37,21 +37,16 @@ public class Disciplina implements Comparable<Disciplina>{
 		return nota;
 	}
 	
+	public int getId() {
+		return id;
+	}
+	
 	public String getComentarios() {
 		return comentarios;
 	}
 	
 	public int getLikes() {
 		return likes;
-	}
-
-	@Override
-	public int compareTo(Disciplina o) {
-		if(this.getNota() > o.getNota())
-			return 1;
-		else if(this.getNota() < o.getNota())
-			return -1;
-		return 0;
 	}
 
 	public String getNome() {

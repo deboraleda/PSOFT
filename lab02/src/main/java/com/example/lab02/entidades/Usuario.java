@@ -22,6 +22,10 @@ public class Usuario {
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
+	}
+	
+	public Usuario() {
+		
 	}	
 	
 	/*public Usuario(@JsonProperty("email") String email) {
